@@ -1,12 +1,20 @@
 package main
 
-import "fmt"
+import (
+	"github.com/Imprezzaa/linkshortener/routes"
+	"github.com/gin-gonic/gin"
+)
 
-// "fmt"
-// "log"
+/*
+TODO:
+https://github.com/gin-gonic/examples/blob/master/graceful-shutdown/graceful-shutdown/notify-with-context/server.go
+make service more resilient in the case of a shutdown
 
-// shortdb "github.com/Imprezzaa/linkshortener/db"
+
+*/
 
 func main() {
-	fmt.Println("placeholder")
+	r := gin.Default()
+	routes.Routes(r)
+	r.Run("localhost:8080")
 }
