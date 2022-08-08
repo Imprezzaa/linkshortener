@@ -9,7 +9,6 @@ func TestMakeString(t *testing.T) {
 
 	tests := []struct {
 		length     int
-		charset    string
 		wantlength int
 		wantchars  bool
 	}{
@@ -26,6 +25,10 @@ func TestMakeString(t *testing.T) {
 		match := r.MatchString(got)
 		if !match {
 			t.Fatalf("expected: %v, got: %v", tc.wantchars, match)
+		}
+		l := len(got)
+		if l != tc.wantlength {
+			t.Fatalf("expected: %v, got: %v", tc.wantlength, l)
 		}
 	}
 

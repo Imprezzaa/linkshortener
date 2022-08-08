@@ -1,4 +1,4 @@
-package config
+package db
 
 import (
 	"log"
@@ -12,5 +12,5 @@ func EnvMongoURI() string {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	return os.Getenv("MONGOURI")
+	return os.Getenv("MONGODB_URI")
 }

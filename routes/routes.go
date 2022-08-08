@@ -1,24 +1,26 @@
 package routes
 
 import (
-	"net/http"
-
+	"github.com/Imprezzaa/linkshortener/controllers"
 	"github.com/gin-gonic/gin"
 )
 
 func Routes(r *gin.Engine) {
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Home Page",
-		})
-	})
+	r.GET("/:shortId", controllers.GetLink())
 
-	v1 := r.Group("/v1")
+	users := r.Group("/u")
 
-	v1.GET("/create", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "create user",
-		})
-	})
+	users.POST("/create", controllers.CreateUser())
+
+	users.GET("/:userId", controllers.GetUser())
+	users.PUT("/:userId", controllers.EditUser())
+	users.DELETE("/:userId", controllers.DeleteUser())
+
+	users.GET("/users", controllers.GetAllUsers())
+
+	links := r.Group("/l")
+
+	links.POST("/create", controllers.CreateLink())
+	links.GET("/:username/links", controllers.GetUserLinks())
 }

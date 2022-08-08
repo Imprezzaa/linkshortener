@@ -1,24 +1,35 @@
 # linkshortener
 
-:warning: Very early WIP :warning:
+:construction: Work in progress :construction_worker::construction:
 
-The goal is to have a basic, but functional URL shortener with a built-in Database/keystore(currently bboltDB) and a basic frontend that allows user creation, log-in/logout and retrieval of a users created URLs.
+## Description
+This is a link shortening API written in Go using the Gin web framework and is written to support a MongoDB backend. It's still in early development so is missing some features and documentation.
+
+### Curent Functionality
+User Logic - Create, Get, Edit, Delete, GetAll
+Link Logic:
+    - Create: create takes in a username and a URL and creates a shortened URL that redirects to the supplied URL
+    - GetLink: getlink takes in a shortened URL parameter, queries the database and redirects the user to the saved URL
+    - GetUserLinks: getuserlinks takes in a username, queries the link document collection for all links created by the user and returns the shortened and original URL
+
+#### Why use these specific technologies?
+- Go: I chose to write the project in Go since I'm interested in building backend infrastructure and Go provides a well structured language without the bloat of other languages I've tried.
+- Gin: It's a popular web framework in active development and the built in middleware makes troubleshooting much easier
+- MongoDB: I was originally using bboltdb but wanted to use a remote backend and learn more about NoSQL databases. 
+- godotenv: It's helpful to have sensitive data in a seperate file that can be ignored when pushing code to github. 
+
+## Project Goals
+- #TODO
 
 
+### Short term plans
+- Complete and test the link controller logic
+- Clean up code(inconsistent variable names, struct fields/tags, fix bugs)
+- Add tests to existing packages that won't see major changes
+- Implement an timestamp instead of using unix time
+- Document the API and provide examples of API calls
 
-## TODOs
-- test different formats of storing data. 
-- Revise/restructure DB 
-- encode/decode functions for storing information as []byte and retrieving information and turning it into something returnable to the user
-- user sign-up service - super basic, just username/password(good chance to learn about password hashing)
-- website with basic functionality to present a GUI - using html templates
-- create routes and route handlers
-- setup http services
-- write tests
-
-
-## Finished
-- First DB draft
-
-### stretch goals
-- https server with self-signed cert?
+### Long term plans/wants
+- Prep the project to be dockerized and allow important variables to be pulled from the .env file
+- Implement an in memory counter that bulk updates DB documents every x hours
+- look into user authentication and protected routes

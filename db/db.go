@@ -1,4 +1,4 @@
-package config
+package db
 
 import (
 	"context"
@@ -27,7 +27,8 @@ func ConnectDB() *mongo.Client {
 
 var DB *mongo.Client = ConnectDB()
 
-func GetCollection(client *mongo.Client, collectionName string, dbname string) *mongo.Collection {
-	collection := client.Database(dbname).Collection(collectionName)
+// collection functions
+func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
+	collection := client.Database("linkshortener").Collection(collectionName)
 	return collection
 }
