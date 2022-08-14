@@ -10,7 +10,6 @@ import (
 	"github.com/Imprezzaa/linkshortener/db"
 	"github.com/Imprezzaa/linkshortener/models"
 	"github.com/Imprezzaa/linkshortener/responses"
-	"github.com/Imprezzaa/linkshortener/utils"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -36,7 +35,7 @@ func CreateLink() gin.HandlerFunc {
 			return
 		}
 
-		shortLink := utils.MakeString(8)
+		shortLink := MakeString(8)
 		newLink := models.ShortLink{
 			ShortID:      shortLink,
 			LongURL:      links.LongURL,
@@ -76,7 +75,7 @@ func GetLink() gin.HandlerFunc {
 		}
 
 		location := url.URL{Path: results["longurl"]}
-		varLocation := utils.VerifyURL(location.Path)
+		varLocation := VerifyURL(location.Path)
 
 		c.Redirect(http.StatusMovedPermanently, varLocation)
 
