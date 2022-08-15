@@ -23,7 +23,7 @@ func CreateLink() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		var links models.ShortLink
+		var links models.NewLink
 
 		if err := c.BindJSON(&links); err != nil {
 			c.JSON(http.StatusBadRequest, responses.LinkResponse{Status: http.StatusBadRequest, Message: "error: could not create link", Data: map[string]interface{}{"data": err.Error()}})
@@ -36,12 +36,11 @@ func CreateLink() gin.HandlerFunc {
 		}
 
 		shortLink := MakeString(8)
-		newLink := models.ShortLink{
+		newLink := models.NewLink{
+			FullURL:      links.FullURL,
 			ShortID:      shortLink,
-			LongURL:      links.LongURL,
 			CreatedBy:    links.CreatedBy,
-			Creationdate: time.Now().Unix(),
-			Counter:      0,
+			CreationDate: GetTime(),
 		}
 
 		result, err := LinkCollection.InsertOne(ctx, newLink)
@@ -59,11 +58,11 @@ func GetLink() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		shorty := c.Param("shortId")
-		opts := options.FindOne().SetProjection(bson.D{{Key: "longurl", Value: 1}})
+		shorty := c.Param("short_id")
+		opts := options.FindOne().SetProjection(bson.D{{Key: "full_url", Value: 1}})
 
 		var results map[string]string
-		err := LinkCollection.FindOne(ctx, bson.M{"shortid": shorty}, opts).Decode(&results)
+		err := LinkCollection.FindOne(ctx, bson.M{"short_id": shorty}, opts).Decode(&results)
 		if err != nil {
 			c.JSON(http.StatusNotFound, responses.UserResponse{Status: http.StatusNotFound, Message: "error: url not found", Data: map[string]interface{}{"data": err.Error()}})
 			return
@@ -74,10 +73,31 @@ func GetLink() gin.HandlerFunc {
 			fmt.Println(result)
 		}
 
-		location := url.URL{Path: results["longurl"]}
+		location := url.URL{Path: results["full_url"]}
 		varLocation := VerifyURL(location.Path)
 
 		c.Redirect(http.StatusMovedPermanently, varLocation)
+
+	}
+}
+
+func EditLink() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		shorty := c.Param("short_id")
+		var links models.NewLink
+
+		err := c.BindJSON(&links)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, responses.LinkResponse{Status: http.StatusBadRequest, Message: "error", ShortURL: shorty, Data: map[string]interface{}{"data": err.Error()}})
+		}
+
+		err = validate.Struct(&links)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, responses.LinkResponse{Status: http.StatusBadRequest, Message: "error", ShortURL: shorty, Data: map[string]interface{}{"data": err.Error()}})
+		}
 
 	}
 }
@@ -88,10 +108,10 @@ func GetUserLinks() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		var links []models.ShortLink
+		var links []models.NewLink
 		userName := c.Param("username")
-		filter := bson.D{{Key: "createdby", Value: userName}}
-		projection := bson.M{"longurl": 1, "shortid": 1, "_id": 0}
+		filter := bson.D{{Key: "created_by", Value: userName}}
+		projection := bson.M{"full_url": 1, "short_id": 1, "_id": 0}
 
 		results, err := LinkCollection.Find(ctx, filter, options.Find().SetProjection(projection))
 		if err != nil {
@@ -104,7 +124,7 @@ func GetUserLinks() gin.HandlerFunc {
 		// TODO: bug fix
 		defer results.Close(ctx)
 		for results.Next(ctx) {
-			var singleLink models.ShortLink
+			var singleLink models.NewLink
 			if err = results.Decode(&singleLink); err != nil {
 				c.JSON(http.StatusInternalServerError, responses.LinkResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			}

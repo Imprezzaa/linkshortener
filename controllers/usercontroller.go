@@ -39,7 +39,8 @@ func CreateUser() gin.HandlerFunc {
 
 		newUser := models.User{
 			UserName:     user.UserName,
-			Creationdate: time.Now().Unix(),
+			CreationDate: GetTime(),
+			Location:     user.Location,
 		}
 
 		result, err := userCollection.InsertOne(ctx, newUser)
@@ -57,7 +58,7 @@ func GetUser() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 		var user models.User
-		userId := c.Param("userId")
+		userId := c.Param("user_id")
 
 		objId, _ := primitive.ObjectIDFromHex(userId)
 
