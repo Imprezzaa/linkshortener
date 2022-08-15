@@ -13,7 +13,7 @@ Link Logic:
     - GetUserLinks: getuserlinks takes in a username, queries the link document collection for all links created by the user and returns the shortened and original URL
 
 #### Why use these specific technologies?
-- Go: I chose to write the project in Go since I'm interested in building backend infrastructure and Go is a simple but powerful language specifically designed for working on backend systems
+- Go: I chose to write the project in Go since I'm interested in building backend infrastructure and Go provides a well structured language without the bloat of other languages I've tried.
 - Gin: It's a popular web framework in active development and the built in middleware makes troubleshooting much easier
 - MongoDB: I was originally using bboltdb but wanted to use a remote backend and learn more about NoSQL databases. 
 - godotenv: It's helpful to have sensitive data in a seperate file that can be ignored when pushing code to github. 
