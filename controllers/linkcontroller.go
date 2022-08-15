@@ -23,7 +23,7 @@ func CreateLink() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		var links models.ShortLink
+		var links models.Link
 
 		if err := c.BindJSON(&links); err != nil {
 			c.JSON(http.StatusBadRequest, responses.LinkResponse{Status: http.StatusBadRequest, Message: "error: could not create link", Data: map[string]interface{}{"data": err.Error()}})
@@ -36,12 +36,11 @@ func CreateLink() gin.HandlerFunc {
 		}
 
 		shortLink := MakeString(8)
-		newLink := models.ShortLink{
+		newLink := models.Link{
+			FullURL:      links.FullURL,
 			ShortID:      shortLink,
-			LongURL:      links.LongURL,
 			CreatedBy:    links.CreatedBy,
-			Creationdate: time.Now().Unix(),
-			Counter:      0,
+			CreationDate: GetTime(),
 		}
 
 		result, err := LinkCollection.InsertOne(ctx, newLink)
@@ -88,7 +87,7 @@ func GetUserLinks() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		var links []models.ShortLink
+		var links []models.Link
 		userName := c.Param("username")
 		filter := bson.D{{Key: "createdby", Value: userName}}
 		projection := bson.M{"longurl": 1, "shortid": 1, "_id": 0}
@@ -104,7 +103,7 @@ func GetUserLinks() gin.HandlerFunc {
 		// TODO: bug fix
 		defer results.Close(ctx)
 		for results.Next(ctx) {
-			var singleLink models.ShortLink
+			var singleLink models.Link
 			if err = results.Decode(&singleLink); err != nil {
 				c.JSON(http.StatusInternalServerError, responses.LinkResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			}
