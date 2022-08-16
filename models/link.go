@@ -24,8 +24,8 @@ type ShortLink struct {
 // NewLink outlines the structure that user requests should follow
 // CreateedBy and CreationDate are handled by the link_controller
 type Link struct {
-	FullURL      string             `json:"full_url" validate:"required"`
-	ShortID      string             `json:"short_id,omitempty"`
-	CreatedBy    string             `json:"created_by" validate:"required"`
-	CreationDate primitive.DateTime `json:"creation_date,omitempty"`
+	FullURL      string             `json:"fullurl" validate:"required"`
+	ShortID      string             `json:"shortid,omitempty"`
+	CreatedBy    string             `json:"createdby" validate:"required"`
+	CreationDate primitive.DateTime `json:"creationdate,omitempty"`
 }
