@@ -49,7 +49,7 @@ func CreateLink() gin.HandlerFunc {
 		newLink := models.Link{
 			FullURL:      links.FullURL,
 			ShortID:      shortLink,
-			CreatedBy:    links.CreatedBy,
+			Username:     links.Username,
 			CreationDate: GetTime(),
 		}
 
@@ -252,8 +252,8 @@ func GetUserLinks() gin.HandlerFunc {
 		defer cancel()
 
 		var links []models.Link
-		userName := c.Param("userid")
-		filter := bson.D{{Key: "createdby", Value: userName}}
+		userid := c.Param("userid")
+		filter := bson.D{{Key: "createdby", Value: userid}}
 		projection := bson.M{"fullurl": 1, "shortid": 1, "_id": 0}
 
 		results, err := linkCollection.Find(ctx, filter, options.Find().SetProjection(projection))
