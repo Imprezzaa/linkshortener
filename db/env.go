@@ -14,3 +14,11 @@ func EnvMongoURI() string {
 	}
 	return os.Getenv("MONGODB_URI")
 }
+
+func JWTSecret() string {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("error loading .env file")
+	}
+	return os.Getenv("SECRET_KEY")
+}
