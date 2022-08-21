@@ -26,10 +26,29 @@ Link Logic:
 - Complete and test the link controller logic
 - Clean up code(inconsistent variable names, struct fields/tags, fix bugs)
 - Add tests to existing packages that won't see major changes
-- Implement an timestamp instead of using unix time
+- ~~Implement a timestamp instead of using unix time~~ - time is stored as a MongoDB Datetime primitive which returns as a formatted date/time
 - Document the API and provide examples of API calls
+- look into user authentication and protected routes
 
 ### Long term plans/wants
 - Prep the project to be dockerized and allow important variables to be pulled from the .env file
 - Implement an in memory counter that bulk updates DB documents every x hours
-- look into user authentication and protected routes
+
+
+
+
+
+TODO: Update with more resources as the project progresses
+### Resources Used:
+- The original idea for the project was based on Gophercises
+    - https://www.calhoun.io/
+    - I went off the rails a bit, but I learned quite a bit from the original video and got some experience with BoltDB
+- The basic layout of this version of the project was based on this article and it's a good resource to learn about some basics of the Mongo DB Go driver and gives examples of using different MongoDB functions
+    - https://dev.to/hackmamba/build-a-rest-api-with-golang-and-mongodb-gin-gonic-version-269m
+- Along with the MongoDB docs themselves 
+    - https://www.mongodb.com/docs/drivers/go/current/usage-examples/#std-label-golang-usage-examples
+    - https://www.mongodb.com/docs/drivers/go/current/quick-start/#std-label-golang-quickstart
+- And the excellent mongoDB blog posts with guides about using the driver
+    -   https://www.mongodb.com/blog/post/mongodb-go-driver-tutorial
+- For learning about bcrypt and jwt authentication 
+    - https://codewithmukesh.com/blog/jwt-authentication-in-golang/#Testing_Golang_API_with_VSCode_REST_Client
