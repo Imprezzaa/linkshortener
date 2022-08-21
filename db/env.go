@@ -7,6 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// EnvMongoURI pulls a MongoDB connection string from .env file
 func EnvMongoURI() string {
 	err := godotenv.Load()
 	if err != nil {
@@ -15,6 +16,7 @@ func EnvMongoURI() string {
 	return os.Getenv("MONGODB_URI")
 }
 
+// JWTSecret pulls a secrets string from the .env file
 func JWTSecret() string {
 	err := godotenv.Load()
 	if err != nil {

@@ -18,6 +18,7 @@ import (
 
 var linkCollection *mongo.Collection = db.GetCollection(db.DB, "links")
 
+// CreateLink handles requests to create a new shortlink and stores it in the DB with the username of the creator
 func CreateLink() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -72,6 +73,8 @@ func CreateLink() gin.HandlerFunc {
 	}
 }
 
+// TODO: when requesting a links information it shouldn't return the username
+// GetLink searches for a link within the DB and returns it if found
 func GetLink() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -94,6 +97,7 @@ func GetLink() gin.HandlerFunc {
 	}
 }
 
+// GetLinkRedirect is similar to GetLink except that instead of returning data about the link it redirects to the fullurl and handles the main function of the app
 func GetLinkRedirect() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -126,6 +130,8 @@ func GetLinkRedirect() gin.HandlerFunc {
 	}
 }
 
+// TODO: Only shortlink URL owners should be able to update their owned shorturls
+// EditLink allows a user to update a fullurl associated with one of their created shortlinks
 func EditLink() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// create a context with timeout for when the request is sent to the DB
@@ -197,6 +203,8 @@ func EditLink() gin.HandlerFunc {
 	}
 }
 
+// TODO: DeleteLink should only allow authenticated users or admins to delete a link
+// DeleteLink allows a user to Delete an entry in the DB associated with the shortlink
 func DeleteLink() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

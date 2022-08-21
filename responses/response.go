@@ -1,5 +1,7 @@
 package responses
 
+// TODO: revise, restructure Reponse structs
+
 type UserResponse struct {
 	Status  int                    `json:"status"`
 	Message string                 `json:"message"`
@@ -9,6 +11,6 @@ type UserResponse struct {
 type LinkResponse struct {
 	Status   int                    `json:"status"`
 	Message  string                 `json:"message"`
-	ShortURL string                 `json:"short_url"`
+	ShortURL string                 `json:"shorturl"`
 	Data     map[string]interface{} `json:"data"`
 }

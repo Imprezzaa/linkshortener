@@ -8,14 +8,17 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
+// jwtKey calls db.JWTSecret to load the JWT secret from the .env file
 var jwtKey = []byte(db.JWTSecret())
 
+// type JWTClaim models a JWT Claim based on username and email and nests a RegisteredClaims struct to handle Exiration, Issue time, NotValid before
 type JWTClaim struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	jwt.RegisteredClaims
 }
 
+// GenerateJWT creates a new instance of JWTClaim and returns a tokenstring that the user can authenticate with
 func GenerateJWT(email string, username string) (tokenString string, err error) {
 
 	claims := &JWTClaim{
@@ -35,6 +38,7 @@ func GenerateJWT(email string, username string) (tokenString string, err error) 
 	return
 }
 
+// Validate Token takes in a token string and checks that it is still within a valid timeframe
 func ValidateToken(signedToken string) (err error) {
 	token, err := jwt.ParseWithClaims(
 		signedToken,

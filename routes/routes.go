@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// TODO: Revise, regroup routes and add some protected routes using Auth middleware
+
 func Routes(r *gin.Engine) {
 
 	r.GET("/:shortid", controllers.GetLinkRedirect())

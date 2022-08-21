@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// ConnectDB takes the connection string environment variable and opens a connection to the DB and returns a mongo.Client
 func ConnectDB() *mongo.Client {
 	client, err := mongo.NewClient(options.Client().ApplyURI(EnvMongoURI()))
 	if err != nil {
@@ -27,7 +28,7 @@ func ConnectDB() *mongo.Client {
 
 var DB *mongo.Client = ConnectDB()
 
-// collection functions
+// GetCollections allows you pull a collection from the DB
 func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
 	collection := client.Database("linkshortener").Collection(collectionName)
 	return collection

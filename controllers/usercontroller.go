@@ -15,6 +15,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+// TODO: redesign, update and comment usercontroller
+
 var userCollection *mongo.Collection = db.GetCollection(db.DB, "users")
 var validate = validator.New()
 

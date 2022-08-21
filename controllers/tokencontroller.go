@@ -17,6 +17,7 @@ type TokenRequest struct {
 	Password string `json:"password"`
 }
 
+// GenerateToken is part of the user authentication and verifies the user email exists and that the password they send matches the one stored in the DB then returns a tocken
 func GenerateToken(c *gin.Context) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
