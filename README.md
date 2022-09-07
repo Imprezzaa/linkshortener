@@ -3,36 +3,38 @@
 :construction: Work in progress :construction_worker::construction:
 
 ## Description
-This is a link shortening API written in Go using the Gin web framework and is written to support a MongoDB backend. It's still in early development so is missing some features and documentation.
+The intent of the project was to create a basic link shortening service written in Go but the project kept growing in scope as I learned more about different technologies and went from learning about one concept to another. The code ended up being messy and hard to follow since it was a mixture of reading documentation and following tutorials by different authors. I decided to take a step back and focus on learning about the concepts I thought were interesting and could fit within the project. 
 
-### Curent Functionality
-User Logic - Create, Get, Edit, Delete, GetAll
-Link Logic:
-    - Create: create takes in a username and a URL and creates a shortened URL that redirects to the supplied URL
-    - GetLink: getlink takes in a shortened URL parameter, queries the database and redirects the user to the saved URL
-    - GetUserLinks: getuserlinks takes in a username, queries the link document collection for all links created by the user and returns the shortened and original URL
+I ended up reading both "let's go" and "let's go further" by Alex Edwards and they provide a great blueprint for writing web applications from the ground up and hits on a ton of important topics in a cohesive way.
+
+I decided to restart the project and re-focus efforts into building a solid project with a defined scope. 
+
+### Current Functionality
+In it's current state it is just a basic HTTPS server that can connect to a PosgreSQL via enironment variable or CLI flag. 
 
 #### Why use these specific technologies?
 - Go: I chose to write the project in Go since I'm interested in building backend infrastructure and Go is a simple but powerful language specifically designed for working on backend systems
-- Gin: It's a popular web framework in active development and the built in middleware makes troubleshooting much easier
-- MongoDB: I was originally using bboltdb but wanted to use a remote backend and learn more about NoSQL databases. 
-- godotenv: It's helpful to have sensitive data in a seperate file that can be ignored when pushing code to github. 
+- httprouter: I wanted a lighter HTTP router that extended the base net/http package without needing to pull in a lot of extra code.
 
 ## Project Goals
-- #TODO
+- Build a functional link shortening service backend with the following components
+    - HTTPS server (based on a self-signed certificate for now)
+    - Route handlers providing multiple endpoints and method based routing that allow user creation, login/logout, shortened link creation, patching, deletion and viewing
+        - This will be provided by an underlying SQL database and handlers will use SQL queries to provide it's functionality
+    - User verification
+        - Using bcrypt to hash and verify users have sent the correct password
+    - Routing middleware
+        - Authorization middleware
+        - Leveled logging middleware that sends logs to stdout
+    - User and Link models used to pass data to a SQL server.
 
 
 ### Short term plans
-- Complete and test the link controller logic
-- Clean up code(inconsistent variable names, struct fields/tags, fix bugs)
-- Add tests to existing packages that won't see major changes
-- ~~Implement a timestamp instead of using unix time~~ - time is stored as a MongoDB Datetime primitive which returns as a formatted date/time
-- Document the API and provide examples of API calls
-- look into user authentication and protected routes
+- HTTPS server w/ routes
+- 
 
 ### Long term plans/wants
-- Prep the project to be dockerized and allow important variables to be pulled from the .env file
-- Implement an in memory counter that bulk updates DB documents every x hours
+- Add a front-end with usable forms based on http templates
 
 
 

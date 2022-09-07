@@ -1,3 +1,4 @@
 resources.txt
-.env
-routes/routemocks.txt
+*.key
+*.crt
+migrations
