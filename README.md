@@ -5,7 +5,8 @@
 ## Description
 The intent of the project was to create a basic link shortening service written in Go but the project kept growing in scope as I learned more about different technologies and went from learning about one concept to another. The code ended up being messy and hard to follow since it was a mixture of reading documentation and following tutorials by different authors. I decided to take a step back and focus on learning about the concepts I thought were interesting and could fit within the project. 
 
-I ended up reading both "let's go" and "let's go further" by Alex Edwards and they provide a great blueprint for writing web applications from the ground up and hits on a ton of important topics in a cohesive way.
+I ended up reading both "Let's Go" and "Let's Go Further" by Alex Edwards and they provide a great blueprint for writing web applications from the ground up and hits on a ton of important topics in a cohesive way. The bulk of the code will be from the Greenlight project from the latter with modifications to make it work for the purposes of this project. Figure I could learn from the book(s) while also tinkering around with PostgreSQL, HTTPS, self-signed certs, TLS configs etc. 
+
 
 I decided to restart the project and re-focus efforts into building a solid project with a defined scope. 
 
