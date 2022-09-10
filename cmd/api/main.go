@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Imprezzaa/linkshortener/internal/data"
 	"github.com/Imprezzaa/linkshortener/internal/data/jsonlog"
 	_ "github.com/lib/pq"
 )
@@ -27,6 +28,7 @@ type config struct {
 type application struct {
 	config config
 	logger *jsonlog.Logger
+	models data.Models
 	wg     sync.WaitGroup
 }
 
@@ -36,6 +38,7 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 8080, "API server port - Default:8080")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production")
 	flag.StringVar(&cfg.db.dsn, "dbdsn", os.Getenv("POSGRES_DB"), "PostgreSQL DSN")
+	flag.StringVar(&cfg.domain, "domain", "localhost", "the domain the shortener will be hosted on")
 
 	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "PostgreSQL max open connections")
 	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "PostgreSQL max idle connections")
@@ -54,6 +57,7 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
+		models: data.NewModels(db),
 	}
 
 	err = app.serve()

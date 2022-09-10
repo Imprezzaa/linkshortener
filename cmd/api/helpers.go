@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -21,6 +22,18 @@ func (app *application) readIDParam(r *http.Request) (int64, error) {
 	}
 
 	return id, nil
+}
+
+func (app *application) readShortIDParam(r *http.Request) (string, error) {
+	params := httprouter.ParamsFromContext(r.Context())
+
+	shortid := params.ByName("shortid")
+	valid := regexp.MustCompile(`^[a-zA-Z0-9]*$`).MatchString(shortid)
+	if !valid || len(shortid) > 5 || len(shortid) < 1 {
+		return "", errors.New("invalid shortid parameter")
+	}
+
+	return shortid, nil
 }
 
 // type envelope wraps json errors to provide extra padding to present better formed responses

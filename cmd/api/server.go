@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -10,6 +11,7 @@ import (
 	"time"
 )
 
+// TODO: make tls config and timeouts configurable
 // server starts a HTTPS server with preset timeouts and a tls config
 func (app *application) serve() error {
 
@@ -33,7 +35,8 @@ func (app *application) serve() error {
 	// TODO: maybe this should be moved to the config struct?
 	// Instantiate a var containing config options for a http server
 	srv := &http.Server{
-		Addr:              ":8080",
+		Addr:              fmt.Sprintf(":%d", app.config.port),
+		Handler:           app.routes(),
 		ReadHeaderTimeout: 20 * time.Second,
 		ReadTimeout:       1 * time.Minute,
 		WriteTimeout:      2 * time.Minute,
