@@ -1,2 +1,4 @@
 resources.txt
-.env
+*.key
+*.crt
+*migrations

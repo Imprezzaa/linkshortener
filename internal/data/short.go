@@ -1,4 +1,4 @@
-package controllers
+package data
 
 import (
 	"math/rand"
